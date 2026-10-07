@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PurchaseAI — Customer Purchase Prediction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="bg-glow one"></div><div class="bg-glow two"></div>
+<nav class="nav">
+  <div class="brand"><span class="brand-mark">✦</span><span>Purchase<span class="accent">AI</span></span></div>
+  <div class="nav-links"><a href="#predict">Prediction</a><a href="#analytics">Analytics</a><a href="#about">About</a></div>
+  <div id="health" class="health"><span></span> Checking model...</div>
+</nav>
+
+<main>
+<section class="hero">
+  <div>
+    <div class="eyebrow">END-TO-END MACHINE LEARNING</div>
+    <h1>Predict <span>customer purchase</span> intention.</h1>
+    <p>Analyze browsing behaviour with feature engineering, PCA and Random Forest to estimate whether a session is likely to generate a purchase.</p>
+    <div class="hero-tags"><span>Random Forest</span><span>PCA</span><span>Feature Engineering</span><span>Flask API</span></div>
+  </div>
+  <div class="hero-card"><div class="orbit"></div><div class="hero-icon">🛒</div><b>Behavior → Prediction</b><small>Real model inference</small></div>
+</section>
+
+<section id="predict" class="section">
+<div class="section-title"><div><span class="eyebrow">LIVE PREDICTION</span><h2>Customer session</h2></div><button id="resetBtn" class="ghost">Reset</button></div>
+<div class="prediction-grid">
+<form id="predictForm" class="card form-card">
+  <div class="form-section"><h3>Browsing activity</h3><div class="fields">
+    <label>Administrative Pages<input name="Administrative" type="number" min="0" step="1" value="2"></label>
+    <label>Administrative Duration<input name="Administrative_Duration" type="number" min="0" step="0.1" value="30"></label>
+    <label>Informational Pages<input name="Informational" type="number" min="0" step="1" value="1"></label>
+    <label>Informational Duration<input name="Informational_Duration" type="number" min="0" step="0.1" value="20"></label>
+    <label>Product Pages<input name="ProductRelated" type="number" min="0" step="1" value="10"></label>
+    <label>Product Duration<input name="ProductRelated_Duration" type="number" min="0" step="0.1" value="500"></label>
+    <label>Bounce Rate<input name="BounceRates" type="number" min="0" max="1" step="0.001" value="0.02"></label>
+    <label>Exit Rate<input name="ExitRates" type="number" min="0" max="1" step="0.001" value="0.04"></label>
+    <label>Page Value<input name="PageValues" type="number" min="0" step="0.01" value="5"></label>
+    <label>Special Day<input name="SpecialDay" type="number" min="0" max="1" step="0.01" value="0"></label>
+  </div></div>
+  <div class="form-section"><h3>Session context</h3><div class="fields">
+    <label>Month<select name="Month"><option>Feb</option><option>Mar</option><option>May</option><option>June</option><option>Jul</option><option>Aug</option><option>Sep</option><option>Oct</option><option>Nov</option><option>Dec</option></select></label>
+    <label>Operating System<input name="OperatingSystems" type="number" min="1" step="1" value="2"></label>
+    <label>Browser<input name="Browser" type="number" min="1" step="1" value="2"></label>
+    <label>Region<input name="Region" type="number" min="1" step="1" value="1"></label>
+    <label>Traffic Type<input name="TrafficType" type="number" min="1" step="1" value="2"></label>
+    <label>Visitor Type<select name="VisitorType"><option>Returning_Visitor</option><option>New_Visitor</option><option>Other</option></select></label>
+    <label>Weekend<select name="Weekend"><option value="0">Weekday</option><option value="1">Weekend</option></select></label>
+  </div></div>
+  <button class="predict-btn" type="submit"><span>✦</span> Predict Purchase</button>
+</form>
+
+<div class="card result-card">
+  <div class="result-head"><span class="status-dot"></span><span>MODEL OUTPUT</span></div>
+  <div id="resultIcon" class="result-icon">◌</div>
+  <div id="resultLabel" class="result-label">Ready for prediction</div>
+  <div class="prob-wrap"><div class="prob-top"><span>Purchase probability</span><b id="probability">—</b></div><div class="progress"><div id="probBar"></div></div></div>
+  <div class="confidence"><span>Confidence</span><b id="confidence">Waiting</b></div>
+  <div class="mini-stats"><div><span>Total Pages</span><b id="totalPages">—</b></div><div><span>Total Duration</span><b id="totalDuration">—</b></div><div><span>Avg Product Time</span><b id="avgProduct">—</b></div><div><span>Engagement</span><b id="engagement">—</b></div></div>
+  <div id="resultMessage" class="result-message">Enter a customer session and run the trained model.</div>
+</div>
+</div>
+</section>
+
+<section id="analytics" class="section">
+<div class="section-title"><div><span class="eyebrow">BEHAVIOR ANALYTICS</span><h2>Four views of the customer journey</h2></div></div>
+<div class="chart-grid">
+  <div class="card chart-card"><div class="chart-title"><h3>Purchase distribution</h3><span>Dataset</span></div><canvas id="purchaseChart"></canvas></div>
+  <div class="card chart-card"><div class="chart-title"><h3>Page visit analysis</h3><span>Average pages</span></div><canvas id="pagesChart"></canvas></div>
+  <div class="card chart-card"><div class="chart-title"><h3>Session duration</h3><span>Average seconds</span></div><canvas id="durationChart"></canvas></div>
+  <div class="card chart-card"><div class="chart-title"><h3>Monthly purchase rate</h3><span>Percentage</span></div><canvas id="monthChart"></canvas></div>
+</div>
+</section>
+
+<section id="about" class="section about"><div class="card about-card"><div><span class="eyebrow">PROJECT PIPELINE</span><h2>From browsing behavior to an ML prediction</h2><p>The dashboard sends the original session features to Flask. The backend creates TotalPages, TotalDuration and AverageProductTime, aligns the training feature schema, applies the saved StandardScaler and PCA objects, then calls the saved Random Forest classifier.</p></div><div class="pipeline"><span>Session</span><i>→</i><span>Feature Engineering</span><i>→</i><span>Scaling</span><i>→</i><span>PCA</span><i>→</i><span>Random Forest</span><i>→</i><span>Result</span></div></div></section>
+</main>
+<footer>PurchaseAI · End-to-End Customer Purchase Prediction · Academic ML Project</footer>
+<script src="app.js"></script>
+</body>
+</html>
